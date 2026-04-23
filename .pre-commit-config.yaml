@@ -19,3 +19,13 @@ repos:
       types: [file, yaml]
       entry: yamllint --strict
       exclude: ^charts/.*/templates/
+
+- repo: local
+  hooks:
+  - id: docs-verify
+    name: Verify generated docs are up to date
+    entry: make docs-verify
+    language: system
+    pass_filenames: false
+    stages: [pre-push]
+    files: '\.proto$|_cmd\.go$|packages\.go$'

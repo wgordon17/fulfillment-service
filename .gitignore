@@ -11,3 +11,7 @@
 /fulfillment-service
 /logs
 __debug_bin*
+cmd/gendocs/gendocs
+
+# Un-ignore hack/ — Go/K8s convention for scripts (global OSAC gitignore blocks hack/)
+!/hack/

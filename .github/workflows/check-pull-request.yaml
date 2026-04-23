@@ -71,6 +71,20 @@ jobs:
       with:
         args: build --snapshot --clean
 
+  docs:
+    name: Verify generated docs
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - uses: ./.github/actions/setup-go
+    - uses: bufbuild/buf-action@v1
+      with:
+        setup_only: true
+    - name: Install protoc-gen-doc
+      run: go install github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc@v1.5.1
+    - name: Verify generated docs are up to date
+      run: make docs-verify
+
   run-integration-tests-helm:
     name: Run integration tests - Helm
     runs-on: ubuntu-latest
