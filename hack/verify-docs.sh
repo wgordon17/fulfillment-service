@@ -26,18 +26,18 @@ REPO_ROOT="$(dirname "${SCRIPT_DIR}")"
 
 cd "${REPO_ROOT}"
 
-TMPDIR="$(mktemp -d)"
+VERIFY_TMPDIR="$(mktemp -d)"
 
 # Restore working tree and clean up temp dir on any exit path.
 # Do NOT use 2>/dev/null on the cp commands — restoration failures must be visible.
-trap 'rm -rf docs/reference docs/openapi; cp -r "${TMPDIR}/reference" docs/reference; cp -r "${TMPDIR}/openapi" docs/openapi; rm -rf "${TMPDIR}"' EXIT
+trap 'rm -rf docs/reference docs/openapi; cp -r "${VERIFY_TMPDIR}/reference" docs/reference; cp -r "${VERIFY_TMPDIR}/openapi" docs/openapi; rm -rf "${VERIFY_TMPDIR}"' EXIT
 
-cp -r docs/reference "${TMPDIR}/reference"
-cp -r docs/openapi "${TMPDIR}/openapi"
+cp -r docs/reference "${VERIFY_TMPDIR}/reference"
+cp -r docs/openapi "${VERIFY_TMPDIR}/openapi"
 
 bash hack/update-docs.sh
 
-DIFF="$(diff -r "${TMPDIR}/reference" docs/reference; diff -r "${TMPDIR}/openapi" docs/openapi)" || true
+DIFF="$(diff -r "${VERIFY_TMPDIR}/reference" docs/reference; diff -r "${VERIFY_TMPDIR}/openapi" docs/openapi)" || true
 
 if [ -n "${DIFF}" ]; then
     cat >&2 <<EOF

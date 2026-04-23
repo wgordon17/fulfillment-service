@@ -79,6 +79,7 @@ jobs:
     - uses: ./.github/actions/setup-go
     - uses: bufbuild/buf-action@v1
       with:
+        version: '1.50.0'
         setup_only: true
     - name: Install protoc-gen-doc
       run: go install github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc@v1.5.1
